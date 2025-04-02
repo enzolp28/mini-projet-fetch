@@ -46,8 +46,11 @@ searchInput.addEventListener('input', () => {
 
         resultSearchTrier.forEach(result => {
             const list = document.createElement('p')
-            list.classList.add("surbrillance")
-            list.textContent = `${result.name} - ${result.email}`
+            const regex = new RegExp(searchValue, 'gi')
+            const nomSurligner = result.name.replace(regex, match => `<mark>${match}</mark>`)
+            list.innerHTML = `${nomSurligner} -- ${result.email}`
+            // list.classList.add("surbrillance")
+            // list.textContent = `${result.name} - ${result.email}`
 
             divList.appendChild(list)
         })
