@@ -11,17 +11,16 @@ async function displayUsers() {
 let allUsers = []
 
 button.addEventListener('click', async () => {
+
     divList.innerHTML = ""
+
     try {
-        const users = await displayUsers()
         allUsers = await displayUsers()
-        users.forEach(user => {
+        allUsers.forEach(user => {
             const list = document.createElement('p')
             list.textContent = `${user.name} - ${user.email}`
             divList.appendChild(list)
-
         });
-
 
     } catch (error) {
 
@@ -34,15 +33,24 @@ searchInput.addEventListener('input', () => {
 
     const searchValue = searchInput.value.toLowerCase()
     const resultSearch = allUsers.filter(user => user.name.toLowerCase().includes(searchValue))
-    console.log(resultSearch);
-    divList.innerHTML = ""
+    if (resultSearch.length === 0) {
+        divList.innerHTML = "Il n'existe aucun user "
+    } else {
+        divList.innerHTML = ""
+        const count = document.createElement("span")
+        divList.appendChild(count)
+        const resultSearchTrier = resultSearch.sort((a, b) => {
+            return a.name.localeCompare(b.name)
+        })
+        count.textContent = `${resultSearchTrier.length} users`
 
-    resultSearch.forEach(result => {
-        const list = document.createElement('p')
-        list.textContent = result.name
+        resultSearchTrier.forEach(result => {
+            const list = document.createElement('p')
+            list.classList.add("surbrillance")
+            list.textContent = `${result.name} - ${result.email}`
 
-        divList.appendChild(list)
-    })
-
+            divList.appendChild(list)
+        })
+    }
 
 })
